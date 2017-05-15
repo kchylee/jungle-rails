@@ -26,6 +26,32 @@
       </div>
     </div>
 
+    <div>
+    <% @review = Review.new %>
+    <%= form_for [@product, @review] do |f| %>
+      <h5>Description: <%= f.text_area :description %></h5>
+      <h5>Rating: <%= f.select(:rating) do %></h5>
+        <% [['1', 1], ['2', 2], ['3', 3], ['4', 4], ['5', 5]].each do |r| %>
+          <%= content_tag(:option, r.first, value: r.last) %>
+        <% end %>
+      <% end %>
+      <div><%= f.submit "Submit" %></div>
+    <% end %>
+    </div>
+
+    <div>
+      <% review = Review.where(product_id: @product.id) %>
+      <% if review.count == 0 %>
+        <h4>No reviews yet</h4>
+      <% else %>
+        <% review.each do |r| %>
+          <% user = User.find_by(id: r.user_id) %>
+          <div>User: <%= user.first_name %></div>
+          <div>Rating: <%= r.rating %></div>
+          <div>Comment: <%= r.description %></div>
+        <% end %>
+      <% end %>
+    </div>
   </article>
 
 </section>
