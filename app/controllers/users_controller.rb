@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
 
-  before_filter :authorize
 
   def new
     users = User.new
@@ -12,6 +11,7 @@ class UsersController < ApplicationController
       session[:user_id] = user.id
       redirect_to '/'
     else
+      flash[:notice] = "Invalid input"
       redirect_to '/signup'
     end
   end

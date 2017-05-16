@@ -132,7 +132,34 @@ cat3.products.create!({
   price: 2_483.75
 })
 
+
+User.destroy_all
+
+User.create!({
+  first_name: "John",
+  last_name: "Smith",
+  email: "johnsmith@gmail.com",
+  password_digest: BCrypt::Password.create('123')
+})
+
+User.create!({
+  first_name: "Jane",
+  last_name: "Doe",
+  email: "janedoe@gmail.com",
+  password_digest: BCrypt::Password.create('123')
+})
+
+User.create!({
+  first_name: "Jacques",
+  last_name: "Begin",
+  email: "jacquesbegin@gmail.com",
+  password_digest: BCrypt::Password.create('123')
+})
+
+
 puts 'Re-creating Reviews'
+
+Review.destroy_all
 
 Review.create!({
   product_id: 1,
