@@ -5,9 +5,7 @@
   </header>
 
   <article class="product-detail">
-
     <div class="row">
-
       <div class="col-sm-4">
         <%= image_tag @product.image.url, class: 'main-img' %>
       </div>
@@ -25,32 +23,26 @@
         </dl>
       </div>
     </div>
+    <div class="row">
+      <div class="col-sm-3"></div>
+      <div class="col-sm-6">
+        <div id="review-form">
+          <%= form_for [@product, @review] do |f| %>
+            <h5 id="review-rating">Rating: <%= f.select(:rating) do %></h5>
+              <% [['1', 1], ['2', 2], ['3', 3], ['4', 4], ['5', 5]].each do |r| %>
+                <%= content_tag(:option, r.first, value: r.last) %>
+              <% end %>
+            <% end %>
+            <h5 id="review-description">Comment: </h5>
+            <span id="review-description"><%= f.text_area :description %></span></h5>
+            <div style="float: right"><%= f.submit "Submit" %></div>
+          <% end %>
+        </div>
 
-    <div>
-    <% @review = Review.new %>
-    <%= form_for [@product, @review] do |f| %>
-      <h5>Description: <%= f.text_area :description %></h5>
-      <h5>Rating: <%= f.select(:rating) do %></h5>
-        <% [['1', 1], ['2', 2], ['3', 3], ['4', 4], ['5', 5]].each do |r| %>
-          <%= content_tag(:option, r.first, value: r.last) %>
-        <% end %>
-      <% end %>
-      <div><%= f.submit "Submit" %></div>
-    <% end %>
-    </div>
-
-    <div>
-      <% review = Review.where(product_id: @product.id) %>
-      <% if review.count == 0 %>
-        <h4>No reviews yet</h4>
-      <% else %>
-        <% review.each do |r| %>
-          <% user = User.find_by(id: r.user_id) %>
-          <div>User: <%= user.first_name %></div>
-          <div>Rating: <%= r.rating %></div>
-          <div>Comment: <%= r.description %></div>
-        <% end %>
-      <% end %>
+        <div>
+          <%= render @review %>
+        </div>
+      </div>
     </div>
   </article>
 

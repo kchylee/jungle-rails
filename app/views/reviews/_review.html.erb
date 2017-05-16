@@ -1,0 +1,17 @@
+
+  <% review = Review.where(product_id: @product.id).order(created_at: :desc) %>
+  <% if review.count == 0 %>
+    <h4>No reviews yet</h4>
+  <% else %>
+    <% review.each do |r| %>
+      <% user = User.find_by(id: r.user_id) %>
+      <div class="display-reviews">
+        <div><b>User:</b> <%= user.first_name %></div>
+        <div><b>Rating:</b> <%= r.rating %></div>
+        <div><b>Comment:</b> <%= r.description %></div>
+        <% if session[:user_id] == r.user_id %>
+          <div><%= button_to "Delete", product_review_path(action: "destroy", id: r.id, product_id: @product.id), method: :delete, data: { confirm: "Are you sure?" } %></div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
